@@ -14,12 +14,9 @@ hr {
 }
 
 #board {
-    justify-content: center;
     /* height: 420px; */
     margin: 0 auto;
     margin-top: 3px;
-    display: flex;
-    flex-wrap: wrap;
 }
 
 .tile {
@@ -91,4 +88,12 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.letter-row {
+    justify-content: center;
+    /* height: 420px; */
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
 }

@@ -7,7 +7,7 @@ let col = 0; //current letter for that attempt
 
 let gameOver = false;
 
-const guessList = ["arbeznik", "babb", "barker", "barnes", "beach", "becker", "betz", "boenker", "bogen", "bradesca", "bredendiek", "brennan", "burrows", "buzzelli", "caputo", "chaffee", "chronister", "cicetti", "colborn", "corrigan", "crew", "croglio", "deCarlo", "devenney", "donovan", "emancipator", "fior", "fitzpatrick","foster","franzinger","fuchs","galicki","gallagher","gallaway","ganor","graora","gross","guiao","hallal","hamlin","hanna","hawkins","healay","henderson","hennessey","hess","heyka","hjort","hruby","jarc","johnson","kaiser","keefe","kobe","krainz","kyle","laco","lauer","li","martin","mayer","mccafferty","mcginness","mclaughlin","mekker","mielcarek","mulholland","mullen","murphy","partin","pasko","pecot","petras","popelka","prokop","ptak","reagan","restifo","rowell","rubino","sabol","samek","savastano","schuler","sebring","sheils","short","tocchi","torres","true","turner","vilinsky","voigt","walcutt","warren","welo","wimbiscus","wolf","yandek","yappel","yarcusko","zebrak"];
+const guessList = ["arbeznik", "babb", "barker", "barnes", "beach", "becker", "betz", "boenker", "bogen", "bradesca", "bredendiek", "brennan", "burrows", "buzzelli", "caputo", "chaffee", "chronister", "cicetti", "colborn", "corrigan", "crew", "croglio", "decarlo", "devenney", "donovan", "emancipator", "fior", "fitzpatrick","foster","franzinger","fuchs","galicki","gallagher","gallaway","ganor","graora","gross","guiao","hallal","hamlin","hanna","hawkins","healay","henderson","hennessey","hess","heyka","hjort","hruby","jarc","johnson","kaiser","keefe","kobe","krainz","kyle","laco","lauer","li","martin","mayer","mccafferty","mcginness","mclaughlin","mekker","mielcarek","mulholland","mullen","murphy","partin","pasko","pecot","petras","popelka","prokop","ptak","reagan","restifo","rowell","rubino","sabol","samek","savastano","schuler","sebring","sheils","short","tocchi","torres","true","turner","vilinsky","voigt","walcutt","warren","welo","wimbiscus","wolf","yandek","yappel","yarcusko","zebrak"];
 
 const word = guessList[Math.floor(Math.random()*guessList.length)].toUpperCase();
 console.log(word);
@@ -24,7 +24,7 @@ function intialize() {
     tile.id = "0-0";
     tile.classList.add("tile");
     tile.innerText = "";
-    document.getElementById("board").appendChild(tile);
+    document.getElementById("letter-row-0").appendChild(tile);
     //#endregion
 
     //#region Create the key board
@@ -67,6 +67,17 @@ function intialize() {
     }
     //#endregion
 
+    //listen specifically for shift button
+    document.addEventListener("keydown", (event) => {
+        if (gameOver) return;
+        if (event.code == "ShiftLeft" || event.code == "ShiftRight") {
+            document.getElementById("board").style.marginLeft = "30vw";
+            for (let i = 0; i < 6; i++) {
+                document.getElementById("letter-row-" + i).style.justifyContent = "left";
+            }
+        }
+    });
+    
     // Listen for Key Press
     document.addEventListener("keyup", (e) => {
         processInput(e);
@@ -84,7 +95,7 @@ function createTile() {
         tile.id = row.toString() + "-" + col.toString();
         tile.classList.add("tile");
         tile.innerText = "";
-        document.getElementById("board").appendChild(tile);
+        document.getElementById("letter-row-" + row).appendChild(tile);
 }
 
 function processInput(e) {
@@ -120,6 +131,13 @@ function processInput(e) {
         width--;
     }
 
+    else if (e.code == "ShiftLeft" || e.code == "ShiftRight") {
+        document.getElementById("board").style.marginLeft = "0";
+        for (let i = 0; i < 6; i++) {
+            document.getElementById("letter-row-" + i).style.justifyContent = "center";
+        }
+    }
+
     else if (e.code == "Enter") {
         update();
     }
@@ -145,7 +163,7 @@ function update() {
     console.log(guess);
 
     if (!guessList.includes(guess)) {
-        document.getElementById("answer").innerText = "Not in word list";
+        document.getElementById("answer").innerText = "Not a valid teacher.";
         return;
     }
     
@@ -217,6 +235,5 @@ function update() {
     row++; //start new row
     col = 0; //start at 0 for new row
     width = 0; //resets word width
-
-    document.getElementById("board").appendChild(document.createElement("div"));
+    if (!gameOver) createTile(); //create new tile on next line
 }

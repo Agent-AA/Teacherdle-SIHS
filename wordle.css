@@ -22,6 +22,7 @@ hr {
 .tile {
     /* Box */
     border: 2px solid lightgray;
+    border-radius: 5px;
     width: 60px;
     height: 60px;
     margin: 2.5px;
@@ -67,6 +68,7 @@ hr {
     height: 40px;
     margin: 1px;
     border: 1px solid lightgray;
+    border-radius: 2px;
 
     /* Text */
     font-size: 20px;

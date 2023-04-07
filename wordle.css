@@ -36,10 +36,10 @@ hr {
     align-items: center;
 }
 
-.correct {
-    background-color: #005282;
+.absent {
+    background-color: #787C7E;
     color: white;
-    border-color: white;
+    border-color:white;
 }
 
 .present {
@@ -48,10 +48,10 @@ hr {
     border-color: white;
 }
 
-.absent {
-    background-color: #787C7E;
+.correct {
+    background-color: #005282;
     color: white;
-    border-color:white;
+    border-color: white;
 }
 
 

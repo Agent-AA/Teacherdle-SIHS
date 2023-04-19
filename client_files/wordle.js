@@ -166,7 +166,7 @@ function update() {
     }
     
     // send guess to server
-    $.get(`http://localhost:80/teacherdle/guess/${playerGuess}`, (data) => {
+    $.get(`https://wordle-clone.agent-aa.repl.co/guess/${playerGuess}`, (data) => {
 
         console.log(data);
 

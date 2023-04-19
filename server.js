@@ -10,10 +10,10 @@ app.listen(80, () => { console.log("Server running on port 80"); });
 app.use((req, res, next) => { console.log(req.ip, req.url); next(); });
 
 // server static files from the client_files folder
-app.use("/teacherdle", express.static("client_files"));
+app.use("/", express.static("client_files"));
 
 // handle incoming guesses
-app.get("/teacherdle/guess/:playerGuess", (req, res) => {
+app.get("/guess/:playerGuess", (req, res) => {
 
     data = { colorCode : [] }; // the colorCode property will look something like ["correct", "present", "absent", "present"], with each array item corresponding to the letter in the same position.
 
@@ -36,8 +36,8 @@ function getWordAndCheckGuess(playerGuess) {
             date: new Date()
         };
     }
-
-    checkGuess(wordOfTheDay.word, playerGuess);
+    console.log(globalThis.word.word);
+    checkGuess(globalThis.word.word, playerGuess);
 }
 
 function checkGuess(word, playerGuess) {

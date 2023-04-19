@@ -1,0 +1,24 @@
+{
+  "name": "teacherdle",
+  "version": "1.0.0",
+  "description": "A worldle game, but with all the teachers at St. Ignatius High School",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Agent-AA/wordle-clone.git"
+  },
+  "author": "Alexander Ament",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Agent-AA/wordle-clone/issues"
+  },
+  "homepage": "https://github.com/Agent-AA/wordle-clone#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "nodejs": "^0.0.0"
+  }
+}

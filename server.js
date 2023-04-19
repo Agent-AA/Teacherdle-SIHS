@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 
-console.log(new Date().getDate(), new Date().getMonth(), new Date().getYear());
-
 // start a node server on port 80
 app.listen(80, () => { console.log("Server running on port 80"); });
 

@@ -10,6 +10,9 @@ app.use((req, res, next) => { console.log(req.ip, req.method, req.url); next(); 
 // server static files from the client_files folder
 app.use("/", express.static("client_files"));
 
+// favicon
+app.get("/favicon.ico", (req, res) => { res.sendFile(__dirname + "/favicon.png"); });
+
 // handle incoming guesses
 app.get("/guess/:playerGuess", (req, res) => {
 

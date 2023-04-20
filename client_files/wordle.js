@@ -1,6 +1,5 @@
 //#region initializing variables and words
-let width = 0;
-
+let width = 0; // the number of letters in a guess
 let row = 0; //current guess (attempt #)
 let column = 0; //current letter for that attempt
 
@@ -8,8 +7,7 @@ let gameIsOver = false;
 
 const guessList = ["arbeznik", "babb", "barker", "barnes", "beach", "becker", "betz", "boenker", "bogen", "bradesca", "bredendiek", "brennan", "burrows", "buzzelli", "caputo", "chaffee", "chronister", "cicetti", "columnborn", "corrigan", "crew", "croglio", "decarlo", "devenney", "donovan", "emancipator", "fior", "fitzpatrick","foster","franzinger","fuchs","galicki","gallagher","gallaway","ganor","graora","gross","guiao","hallal","hamlin","hanna","hawkins","healay","henderson","hennessey","hess","heyka","hjort","hruby","jarc","johnson","kaiser","keefe","kobe","krainz","kyle","laco","lauer","li","lynchhuggins","martin","mayer","mccafferty","mcginness","mclaughlin","mekker","mielcarek","mulholland","mullen","murphy","partin","pasko","pecot","petras","popelka","prokop","ptak","reagan","restifo","rowell","rubino","sabol","samek","savastano","schuler","sebring","sheils","short","tocchi","torres","true","turner","vilinsky","voigt","walcutt","warren","welo","wimbiscus","wolf","yandek","yappel","yarcusko","zebrak"];
 
-const word = guessList[Math.floor(Math.random()*guessList.length)].toUpperCase();
-console.log(word);
+const serverAddress = "https://teacherdle.alexament.codes"; // this is to make it easier to switch between addresses
 
 window.onload = function(){
     initialize();
@@ -166,7 +164,7 @@ function update() {
     }
     
     // send guess to server
-    $.get(`https://wordle-clone.agent-aa.repl.co/guess/${playerGuess}`, (data) => {
+    $.get(`${serverAddress}/guess/${playerGuess}`, (data) => {
 
         console.log(data);
 
@@ -194,19 +192,27 @@ function stringTogetherGuess() { // because all the letters are in separate elem
 function colorCode(wordLength, colorCodeData) {
     let numberCorrect = 0;
 
+    const guess = stringTogetherGuess();
+
     for (let i = 0; i < wordLength; i++) {
+
+        const letterTile = document.getElementById(row.toString() + "-" + i.toString());
+        const keyTile = document.getElementById(`Key${guess[i].toUpperCase()}`);
 
         // if correct, assign correct class
         if ( colorCodeData[i] == "correct") {
-            document.getElementById(row.toString() + "-" + i.toString()).classList.add("correct"); 
+            letterTile.classList.add("correct");
+            keyTile.classList.add("correct");
             numberCorrect++;
         }
         // if present, assign present class
         else if ( colorCodeData[i] == "present") {
-            document.getElementById(row.toString() + "-" + i.toString()).classList.add("present");
+            letterTile.classList.add("present");
+            keyTile.classList.add("present");
         }
         else {
-            document.getElementById(row.toString() + "-" + i.toString()).classList.add("absent");
+            letterTile.classList.add("absent");
+            keyTile.classList.add("absent");
         }
     }
 

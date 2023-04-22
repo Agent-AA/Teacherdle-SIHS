@@ -7,7 +7,7 @@ let gameIsOver = false;
 
 const guessList = ["arbeznik", "babb", "barker", "barnes", "beach", "becker", "betz", "boenker", "bogen", "bradesca", "bredendiek", "brennan", "burrows", "buzzelli", "caputo", "chaffee", "chronister", "cicetti", "columnborn", "corrigan", "crew", "croglio", "decarlo", "devenney", "donovan", "emancipator", "fior", "fitzpatrick","foster","franzinger","fuchs","galicki","gallagher","gallaway","ganor","graora","gross","guiao","hallal","hamlin","hanna","hawkins","healay","henderson","hennessey","hess","heyka","hjort","hruby","jarc","johnson","kaiser","keefe","kobe","krainz","kyle","laco","lauer","li","lynchhuggins","martin","mayer","mccafferty","mcginness","mclaughlin","mekker","mielcarek","mulholland","mullen","murphy","partin","pasko","pecot","petras","popelka","prokop","ptak","reagan","restifo","rowell","rubino","sabol","samek","savastano","schuler","sebring","sheils","short","tocchi","torres","true","turner","vilinsky","voigt","walcutt","warren","welo","wimbiscus","wolf","yandek","yappel","yarcusko","zebrak"];
 
-const serverAddress = "https://wordle-clone.agent-aa.repl.co"; // this is to make it easier to switch between addresses
+const serverAddress = "https://teacherdle.agent-aa.repl.co"; // this is to make it easier to switch between addresses
 
 window.onload = function(){
     initialize();
@@ -19,6 +19,8 @@ function initialize() {
     createTile();
 
     createKeyboard();
+
+    processCookies();
     
     listenForKeypresses();
 }
@@ -79,7 +81,7 @@ function createKeyboard() {
 function listenForKeypresses() {
 
     document.addEventListener("keyup", (event) => {
-        processInput(event); // when a key is pressed process input
+        processInput(event.code); // when a key is pressed process input
     });
 
     listenForShift();
@@ -97,10 +99,13 @@ function listenForShift() {
     });
 }
 
-function processInput(event) {
-    if (gameIsOver) return;
+function processInput(pressedKey) {
 
-    const pressedKey = event.code;
+    if (pressedKey == "Escape") { // this must come before the rest so that the player can reset the game even if they have won.
+        resetCookies();
+    }
+
+    if (gameIsOver) return;
 
     // although currentTile is a variable, it still requires parentheses when being called
     const currentTile = () => { return document.getElementById(row.toString() + '-' + column.toString()); };
@@ -148,12 +153,16 @@ function processInput(event) {
     }
 }
 
-function update() {
+function update(guess) {
     // clear the answer element
     document.getElementById("answer").innerText = "";
 
-    //string up the guesses into the word
-    const playerGuess = stringTogetherGuess();
+    let playerGuess;
+    if (!guess) {
+        playerGuess = stringTogetherGuess();
+    } else {
+        playerGuess = guess;
+    }
 
     console.log(playerGuess);
 
@@ -186,8 +195,72 @@ function stringTogetherGuess() { // because all the letters are in separate elem
         guess += letter;
     }
 
+    if (guessList.includes(guess.toLowerCase())) {
+        setCookie(`guess${row}`, guess.toLowerCase());
+    }
+
     return guess.toLowerCase();
 }
+
+function setCookie(cname, cvalue) {
+    let cookie = cname + "=" + cvalue + "; ";
+      
+    // Set the cookie to expire at the beginning of the next day (12 am)
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 1);
+    expires.setHours(0, 0, 0, 0);
+    cookie += "expires=" + expires.toUTCString() + "; ";
+      
+    // Set the cookie in the user's browser
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function processCookies() {
+
+    for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+            let guess = getCookie(`guess${i}`);
+            if (guess) {
+                for (let j = 0; j < guess.length; j++) {
+                    processInput(`Key${guess[j].toUpperCase()}`);
+                }
+                update(guess);
+            }
+        }, 100 * i);
+    }
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return false;
+}
+
+function resetCookies() {
+    // Get all cookies
+    const cookies = document.cookie.split(";");
+  
+    // Loop through all cookies and delete them
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+    }
+  
+    // Reload the browser
+    location.reload();
+  }
 
 function colorCode(wordLength, colorCodeData) {
     let numberCorrect = 0;

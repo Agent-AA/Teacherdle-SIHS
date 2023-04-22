@@ -7,7 +7,7 @@ let gameIsOver = false;
 
 const guessList = ["arbeznik", "babb", "barker", "barnes", "beach", "becker", "betz", "boenker", "bogen", "bradesca", "bredendiek", "brennan", "burrows", "buzzelli", "caputo", "chaffee", "chronister", "cicetti", "columnborn", "corrigan", "crew", "croglio", "decarlo", "devenney", "donovan", "emancipator", "fior", "fitzpatrick","foster","franzinger","fuchs","galicki","gallagher","gallaway","ganor","graora","gross","guiao","hallal","hamlin","hanna","hawkins","healay","henderson","hennessey","hess","heyka","hjort","hruby","jarc","johnson","kaiser","keefe","kobe","krainz","kyle","laco","lauer","li","lynchhuggins","martin","mayer","mccafferty","mcginness","mclaughlin","mekker","mielcarek","mulholland","mullen","murphy","partin","pasko","pecot","petras","popelka","prokop","ptak","reagan","restifo","rowell","rubino","sabol","samek","savastano","schuler","sebring","sheils","short","tocchi","torres","true","turner","vilinsky","voigt","walcutt","warren","welo","wimbiscus","wolf","yandek","yappel","yarcusko","zebrak"];
 
-const serverAddress = "https://teacherdle.agent-aa.repl.co"; // this is to make it easier to switch between addresses
+const serverAddress = "http://localhost"; // this is to make it easier to switch between addresses
 
 window.onload = function(){
     initialize();
@@ -176,7 +176,7 @@ function update(guess) {
     $.get(`${serverAddress}/guess/${playerGuess}`, (data) => {
 
         console.log(data);
-
+        setCookie(`guess${row}colorCode`, data.colorCode);
         colorCode(playerGuess.length, data.colorCode);
 
         row++; //start new row
@@ -216,17 +216,21 @@ function setCookie(cname, cvalue) {
 }
 
 function processCookies() {
+    for (let i = 0; i < 6; i++) { // for every word
+        const guess = getCookie(`guess${i}`);
 
-    for (let i = 0; i < 6; i++) {
-        setTimeout(() => {
-            let guess = getCookie(`guess${i}`);
-            if (guess) {
-                for (let j = 0; j < guess.length; j++) {
-                    processInput(`Key${guess[j].toUpperCase()}`);
-                }
-                update(guess);
+        if (guess) {
+            for (let j = 0; j < guess.length; j++) { // for every letter in the word
+                processInput(`Key${guess[j].toUpperCase()}`);
             }
-        }, 100 * i);
+
+            colorCode(guess.length, getCookie(`guess${i}colorCode`).split(","));
+
+            row++;
+            column = 0;
+            width = 0;
+            if (!gameIsOver) createTile();
+        }
     }
 }
 

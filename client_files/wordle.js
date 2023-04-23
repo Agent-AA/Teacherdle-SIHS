@@ -96,11 +96,18 @@ function listenForShift() {
 
 function processInput(pressedKey) {
 
+    document.getElementById("answer").innerText = "";
+
     if (pressedKey == "Escape") { // this must come before the rest so that the player can reset the game even if they have won.
         resetCookies();
     }
 
-    if (gameIsOver) return;
+    if (gameIsOver) {
+        return;
+    } else if ((column >= 12 && pressedKey != "Backspace") || column >= 14) {
+        document.getElementById("answer").innerText = "There is no teacher with that long of a name.";
+    }
+
 
     // although currentTile is a variable, it still requires parentheses when being called
     const currentTile = () => { return document.getElementById(row.toString() + '-' + column.toString()); };

@@ -22,7 +22,11 @@ function initialize() {
 
     processCookies();
     
-    listenForKeypresses();
+    document.addEventListener("keyup", (event) => {
+        processInput(event.code); // when a key is pressed process input
+    });
+
+    listenForShift();
 }
 
 function createTile() {
@@ -76,15 +80,6 @@ function createKeyboard() {
         }
         document.body.appendChild(keyboardRow);
     }
-}
-
-function listenForKeypresses() {
-
-    document.addEventListener("keyup", (event) => {
-        processInput(event.code); // when a key is pressed process input
-    });
-
-    listenForShift();
 }
 
 function listenForShift() {

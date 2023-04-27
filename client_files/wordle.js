@@ -25,11 +25,73 @@ function initialize() {
     listenForShift();
 }
 
+//#region HTML doc functions
 function createBoard() {
     document.body.innerHTML = '<img id="help-icon" src="help.svg"><div id="board"><h1 id="title">Teacherdle <span id="SIHS">SIHS</span></h1><hr><br><div id="letter-row-0" class="letter-row"></div><div id="letter-row-1" class="letter-row"></div><div id="letter-row-2" class="letter-row"></div><div id="letter-row-3" class="letter-row"></div><div id="letter-row-4" class="letter-row"></div><div id="letter-row-5" class="letter-row"></div><br><h1 id="answer"></h1></div>';
     createTile();
     createKeyboard();
     processCookies();
+
+    // these are the local functions used in this function
+    function createKeyboard() {
+        const keyboard = [
+            ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+            ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+            ["Enter", "Z", "X", "C", "V", "B", "N", "M", "⌫" ]
+        ]
+    
+        for (let i = 0; i < keyboard.length; i++) {
+            let currentRow = keyboard[i];
+            let keyboardRow = document.createElement("div");
+            keyboardRow.classList.add("keyboard-row");
+    
+            for (let j = 0; j < currentRow.length; j++) {
+                let keyTile = document.createElement("div");
+    
+                let key = currentRow[j];
+                keyTile.innerText = key;
+    
+                if (key == "Enter") {
+                    keyTile.id = "Enter";
+                }
+                else if (key == "⌫") {
+                    keyTile.id = "Backspace";
+                }
+                else if ("A" <= key && key <= "Z") {
+                    keyTile.id = "Key" + key; // "Key" + "A";
+                } 
+    
+                keyTile.addEventListener("click", () => {
+                    processInput(keyTile.id);
+                });
+    
+                keyTile.classList.add("key-tile");
+                if (key == "Enter") keyTile.classList.add("enter-key-tile");
+                
+                keyboardRow.appendChild(keyTile);
+            }
+            document.getElementById("board").appendChild(keyboardRow);
+        }
+    }
+
+    function processCookies() {
+        for (let i = 0; i < 6; i++) { // for every word
+            const guess = getCookie(`guess${i}`);
+    
+            if (guess) {
+                for (let j = 0; j < guess.length; j++) { // for every letter in the word
+                    processInput(`Key${guess[j].toUpperCase()}`);
+                }
+    
+                colorCode(guess.length, getCookie(`guess${i}colorCode`).split(","));
+    
+                row++;
+                column = 0;
+                width = 0;
+                if (!gameIsOver) createTile();
+            }
+        }
+    }
 }
 
 function createTile() {
@@ -39,47 +101,6 @@ function createTile() {
         tile.classList.add("tile");
         tile.innerText = "";
         document.getElementById("letter-row-" + row).appendChild(tile);
-}
-
-function createKeyboard() {
-    const keyboard = [
-        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-        ["Enter", "Z", "X", "C", "V", "B", "N", "M", "⌫" ]
-    ]
-
-    for (let i = 0; i < keyboard.length; i++) {
-        let currentRow = keyboard[i];
-        let keyboardRow = document.createElement("div");
-        keyboardRow.classList.add("keyboard-row");
-
-        for (let j = 0; j < currentRow.length; j++) {
-            let keyTile = document.createElement("div");
-
-            let key = currentRow[j];
-            keyTile.innerText = key;
-
-            if (key == "Enter") {
-                keyTile.id = "Enter";
-            }
-            else if (key == "⌫") {
-                keyTile.id = "Backspace";
-            }
-            else if ("A" <= key && key <= "Z") {
-                keyTile.id = "Key" + key; // "Key" + "A";
-            } 
-
-            keyTile.addEventListener("click", () => {
-                processInput(keyTile.id);
-            });
-
-            keyTile.classList.add("key-tile");
-            if (key == "Enter") keyTile.classList.add("enter-key-tile");
-            
-            keyboardRow.appendChild(keyTile);
-        }
-        document.body.appendChild(keyboardRow);
-    }
 }
 
 function listenForShift() {
@@ -93,6 +114,7 @@ function listenForShift() {
         }
     });
 }
+//#endregion
 
 function processInput(pressedKey) {
 
@@ -214,25 +236,6 @@ function setCookie(cname, cvalue) {
       
     // Set the cookie in the user's browser
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function processCookies() {
-    for (let i = 0; i < 6; i++) { // for every word
-        const guess = getCookie(`guess${i}`);
-
-        if (guess) {
-            for (let j = 0; j < guess.length; j++) { // for every letter in the word
-                processInput(`Key${guess[j].toUpperCase()}`);
-            }
-
-            colorCode(guess.length, getCookie(`guess${i}colorCode`).split(","));
-
-            row++;
-            column = 0;
-            width = 0;
-            if (!gameIsOver) createTile();
-        }
-    }
 }
 
 function getCookie(cname) {

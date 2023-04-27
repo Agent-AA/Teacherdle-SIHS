@@ -1,16 +1,21 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
 }
 
-hr {
-    width: 500px;
+#help-icon {
+    position: absolute;
+    margin: 0px 0px 0px 10px;
+    cursor: pointer;
 }
 
 #title {
     font-size: 36px;
     font-weight: bold;
     letter-spacing: 2px;
+}
+
+hr {
+    width: 500px;
 }
 
 #SIHS {
@@ -25,6 +30,7 @@ hr {
     /* height: 420px; */
     margin: 0 auto;
     margin-top: 3px;
+    text-align: center;
 }
 
 .tile {

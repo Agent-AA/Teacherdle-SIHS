@@ -73,6 +73,7 @@ hr {
 
 .key-tile {
     width: 36px;
+    cursor: pointer;
     height: 40px;
     margin: 1px;
     border: 1px solid lightgray;
@@ -88,16 +89,6 @@ hr {
 
 .enter-key-tile {
     width: 76px;
-    height: 40px;
-    margin: 1px;
-    border: 1px solid lightgray;
-
-    /* Text */
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .letter-row {

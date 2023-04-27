@@ -39,9 +39,9 @@ function createTile() {
 }
 
 function createKeyboard() {
-    let keyboard = [
+    const keyboard = [
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L", " "],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
         ["Enter", "Z", "X", "C", "V", "B", "N", "M", "⌫" ]
     ]
 
@@ -67,15 +67,12 @@ function createKeyboard() {
             } 
 
             keyTile.addEventListener("click", () => {
-                e = { "code" : this.id };
-                processInput(e);
+                processInput(keyTile.id);
             });
 
-            if (key == "Enter") {
-                keyTile.classList.add("enter-key-tile");
-            } else {
-                keyTile.classList.add("key-tile");
-            }
+            keyTile.classList.add("key-tile");
+            if (key == "Enter") keyTile.classList.add("enter-key-tile");
+            
             keyboardRow.appendChild(keyTile);
         }
         document.body.appendChild(keyboardRow);
@@ -104,7 +101,7 @@ function processInput(pressedKey) {
 
     if (gameIsOver) {
         return;
-    } else if ((column >= 12 && pressedKey != "Backspace") || column >= 14) {
+    } else if ((column >= 12 && pressedKey != "Backspace") || column >= 14) { // there is no teacher name longer that 12 letters, so this will tell them if they have more than 12
         document.getElementById("answer").innerText = "There is no teacher with that long of a name.";
     }
 
@@ -157,7 +154,6 @@ function processInput(pressedKey) {
 
 function update(guess) {
     // clear the answer element
-    document.getElementById("answer").innerText = "";
 
     let playerGuess;
     if (!guess) {
@@ -203,7 +199,7 @@ function stringTogetherGuess() { // because all the letters are in separate elem
 
     return guess.toLowerCase();
 }
-
+//#region cookie functions
 function setCookie(cname, cvalue) {
     let cookie = cname + "=" + cvalue + "; ";
       
@@ -266,7 +262,8 @@ function resetCookies() {
   
     // Reload the browser
     location.reload();
-  }
+}
+//#endregion
 
 function colorCode(wordLength, colorCodeData) {
     let numberCorrect = 0;

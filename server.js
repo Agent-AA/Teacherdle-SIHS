@@ -13,7 +13,7 @@ app.use("/", express.static("client_files"));
 // favicon
 app.get("/favicon.ico", (req, res) => { res.sendFile(__dirname + "/favicon.png"); });
 
-// handle incoming guesses
+//#region handle incoming guesses
 app.get("/guess/:playerGuess", (req, res) => {
 
     console.log(`A player is guessing ${req.params.playerGuess}`);
@@ -83,3 +83,4 @@ function checkGuess(word, playerGuess, guessList) {
         }
     }
 }
+//#endregion

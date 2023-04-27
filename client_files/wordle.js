@@ -7,7 +7,7 @@ let gameIsOver = false;
 
 const guessList = ["arbeznik", "babb", "barker", "barnes", "beach", "becker", "betz", "boenker", "bogen", "bradesca", "bredendiek", "brennan", "burrows", "buzzelli", "caputo", "chaffee", "chronister", "cicetti", "columnborn", "corrigan", "crew", "croglio", "decarlo", "devenney", "donovan", "emancipator", "fior", "fitzpatrick","foster","franzinger","fuchs","galicki","gallagher","gallaway","ganor","graora","gross","guiao","hallal","hamlin","hanna","hawkins","healay","henderson","hennessey","hess","heyka","hjort","hruby","jarc","johnson","kaiser","keefe","kobe","krainz","kyle","laco","lauer","li","lynchhuggins","martin","mayer","mccafferty","mcginness","mclaughlin","mekker","mielcarek","mulholland","mullen","murphy","partin","pasko","pecot","petras","popelka","prokop","ptak","reagan","restifo","rowell","rubino","sabol","samek","savastano","schuler","sebring","sheils","short","tocchi","torres","true","turner","vilinsky","voigt","walcutt","warren","welo","wimbiscus","wolf","yandek","yappel","yarcusko","zebrak"];
 
-const serverAddress = "https://teacherdle.agent-aa.repl.co"; // this is to make it easier to switch between addresses
+const serverAddress = "http://localhost"; // this is to make it easier to switch between addresses
 
 window.onload = function(){
     initialize();
@@ -16,17 +16,20 @@ window.onload = function(){
 
 function initialize() {
 
-    createTile();
-
-    createKeyboard();
-
-    processCookies();
+    createBoard();
     
     document.addEventListener("keyup", (event) => {
         processInput(event.code); // when a key is pressed process input
     });
 
     listenForShift();
+}
+
+function createBoard() {
+    document.body.innerHTML = '<img id="help-icon" src="help.svg"><div id="board"><h1 id="title">Teacherdle <span id="SIHS">SIHS</span></h1><hr><br><div id="letter-row-0" class="letter-row"></div><div id="letter-row-1" class="letter-row"></div><div id="letter-row-2" class="letter-row"></div><div id="letter-row-3" class="letter-row"></div><div id="letter-row-4" class="letter-row"></div><div id="letter-row-5" class="letter-row"></div><br><h1 id="answer"></h1></div>';
+    createTile();
+    createKeyboard();
+    processCookies();
 }
 
 function createTile() {

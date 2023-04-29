@@ -13,6 +13,9 @@ app.use("/", express.static("client_files"));
 // favicon
 app.get("/favicon.ico", (req, res) => { res.sendFile(__dirname + "/favicon.png"); });
 
+// help page
+app.get("/help-page", (req, res) => { res.sendFile(__dirname + "/help-page/"); });
+
 //#region handle incoming guesses
 app.get("/guess/:playerGuess", (req, res) => {
 

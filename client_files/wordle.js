@@ -125,7 +125,7 @@ function processInput(pressedKey) {
 
     if (gameIsOver) {
         return;
-    } else if ((column >= 12 && pressedKey != "Backspace") || column >= 14) { // there is no teacher name longer that 12 letters, so this will tell them if they have more than 12
+    } else if ((column >= 12 && pressedKey != "Backspace" && pressedKey != "Enter" && pressedKey != "Space") || column >= 14) { // there is no teacher name longer that 12 letters, so this will tell them if they have more than 12
         document.getElementById("answer").innerText = "There is no teacher with that long of a name.";
     }
 
@@ -180,7 +180,7 @@ function update(guess) {
     // clear the answer element
 
     let playerGuess;
-    if (!guess) {
+    if (!guess) { // this is because normally guess is provided by the HTML page tiles, but when the game is loaded from cookies, it is not
         playerGuess = stringTogetherGuess();
     } else {
         playerGuess = guess;
@@ -198,8 +198,10 @@ function update(guess) {
     $.get(`${serverAddress}/guess/${playerGuess}`, (data) => {
 
         console.log(data);
-        setCookie(`guess${row}colorCode`, data.colorCode);
-        colorCode(playerGuess.length, data.colorCode);
+        
+        setCookie(`guess${row}`, guess.toLowerCase()); // save to cookies if they reload
+        setCookie(`guess${row}colorCode`, data.colorCode); // save to cookies if they reload
+        colorCode(playerGuess.length, data.colorCode); // color the tiles
 
         row++; //start new row
         column = 0; //start at 0 for new row
@@ -215,10 +217,6 @@ function stringTogetherGuess() { // because all the letters are in separate elem
         let currTile = document.getElementById(row.toString() + '-' + i.toString());
         let letter = currTile.innerText;
         guess += letter;
-    }
-
-    if (guessList.includes(guess.toLowerCase())) {
-        setCookie(`guess${row}`, guess.toLowerCase());
     }
 
     return guess.toLowerCase();

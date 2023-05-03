@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+const rebootTimestamp = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()} at ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`; // ex) 1/1/2021 12:00:00
+console.log("Rebooted on",rebootTimestamp);
+
 // start a node server on port 80
 app.listen(80, () => { console.log("Server running on port 80"); });
 
@@ -15,6 +18,9 @@ app.get("/favicon.ico", (req, res) => { res.sendFile(__dirname + "/favicon.png")
 
 // help page
 app.get("/help-page", (req, res) => { res.sendFile(__dirname + "/help-page/"); });
+
+// reboot timestamp
+app.get("/reboot-timestamp", (req, res) => { res.send(rebootTimestamp); });
 
 //#region handle incoming guesses
 app.get("/guess/:playerGuess", (req, res) => {

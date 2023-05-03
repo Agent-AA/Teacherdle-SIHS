@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
     <link rel="stylesheet" href="help.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Teacherdle - How to Play</title>
 </head>
 <body>
@@ -15,6 +16,15 @@
         <p>This page is a work in progress. Check back later.</p>
         
     </div>
+    <footer id="footer">Can't connect to server.</footer>
 </body>
+
+<script>
+    const serverAddress = "https://teacherdle.agent-aa.repl.co";
+
+    $.get(`${serverAddress}/reboot-timestamp`, (timestamp) => {
+        document.getElementById("footer").textContent = `Last update on ${timestamp}.`;
+    });
+</script>
 
 </html>

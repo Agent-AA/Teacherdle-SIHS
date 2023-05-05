@@ -6,25 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
     <link rel="stylesheet" href="help.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="help-page.js"></script>
     <title>Teacherdle - How to Play</title>
 </head>
 <body>
-    <h1>How to Play Teacherdle</h1>
-    <hr>
-    <div id="explanation">
-        <div id="letter-sample-1"></div>
-        <p>This page is a work in progress. Check back later.</p>
-        
+    <h1>Teacherdle Help Page</h1>
+    <h2>Feedback and Support</h2>
+    <p>If you found a bug or have a suggestion, submit it here. If you're submitting a bug, be specific as possible.</p>
+    <div id="feedback-form" style="display: flex; justify-content: center;">
+        <div style="text-align: left; width: 60vw;">
+            <input id="name-input" type="text" placeholder="Name"></input>
+            <br><br>
+            <textarea id="feature-bug-input" placeholder="Submit a feature request or bug here."></textarea>
+            <br><br>
+            <button type="submit" id="submit-button">Submit</button>
+        </div>
+        <footer id="footer">Can't connect to server.</footer>
     </div>
-    <footer id="footer">Can't connect to server.</footer>
 </body>
-
-<script>
-    const serverAddress = "https://teacherdle.agent-aa.repl.co";
-
-    $.get(`${serverAddress}/reboot-timestamp`, (timestamp) => {
-        document.getElementById("footer").textContent = `Last update on ${timestamp}.`;
-    });
-</script>
-
 </html>

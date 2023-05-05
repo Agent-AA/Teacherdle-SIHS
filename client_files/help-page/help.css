@@ -1,39 +1,43 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 30px;
+    text-align: center;
 }
 
-h2 {
-    font-size: 40px;
+p {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 }
 
-hr {
-    width: 500px;
+#name-input {
+    font-size: 20px;
+    width: 20vw;
+    max-width: 400px;
+    min-width: 200px;
 }
 
-#letter-sample {
-    display: flex;
+#feature-bug-input {
+    font-size: 20px;
+    width: 60vw;
+    min-width: 200px;
+    height: 40vh;
 }
 
-.tile {
-    /* Box */
-    border: 2px solid lightgray;
-    border-radius: 5px;
-    width: 60px;
-    height: 60px;
-    margin: 2.5px;
+#submit-button {
+    color: white;
+    background-color: #005282;
+    border-color: #005282;
+    font-size: 20px;
+    border-radius: 15px;
+    Z-index: 2;
+}
 
-    /* Text */
-    color: black;
-    font-size: 36px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#submit-button:hover {
+    cursor: pointer;
+    background-color: white;
+    color: #005282;
 }
 
 footer {

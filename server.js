@@ -13,6 +13,7 @@ app.use((req, res, next) => { console.log(req.ip, req.method, req.url); next(); 
 // server static files from the client_files folder
 app.use("/", express.static("client_files"));
 
+//#region GET requests
 // favicon
 app.get("/favicon.ico", (req, res) => { res.sendFile(__dirname + "/favicon.png"); });
 
@@ -21,6 +22,11 @@ app.get("/help-page", (req, res) => { res.sendFile(__dirname + "/help-page/"); }
 
 // reboot timestamp
 app.get("/reboot-timestamp", (req, res) => { res.send(rebootTimestamp); });
+
+// view feedback
+app.get("/admin", (req, res) => {
+    res.send(globalThis.feedback);
+});
 
 //#region handle incoming guesses
 app.get("/guess/:playerGuess", (req, res) => {
@@ -92,4 +98,17 @@ function checkGuess(word, playerGuess, guessList) {
         }
     }
 }
+//#endregion
+//#endregion
+
+//#region POST requests
+app.post("/submit-feedback/:name/:message", (req, res) => { // I hope to change this later, but it works for now.
+    res.send("200");
+    console.log(req.params.name, req.params.message);
+
+    // here we log the feedback for viewing.
+    if (!globalThis.feedback) globalThis.feedback = [];
+    globalThis.feedback.push({ name: req.params.name, message: req.params.message });
+
+});
 //#endregion
